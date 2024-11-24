@@ -1,6 +1,8 @@
 # Diabetic Retinopathy Prediction
 Deep learning solution to predict Diabetic Retinopathy using retinal images.
 
+**Note:** Still in progress, the rest of the code hasn't been pushed yet.
+
 
 ## Diabetic Retinopathy Overview
 ### Diabetic Mellitus
