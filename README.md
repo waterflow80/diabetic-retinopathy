@@ -35,7 +35,7 @@ It is a consequence of plasma leakage. It can be caracterized by **yellow spots*
 It is a consequence of nerve fibre swelling and visibly seen as **white ovals** on the retina. 
 
 ## Datasets
-In this project, we are using the **APTOS** dataset, which contains decent quality retinal images.
+In this project, we are using the [APTOS](https://www.kaggle.com/competitions/aptos2019-blindness-detection/data) dataset, which contains decent quality retinal images.
 
 ## Image Enhancements
 After exploring the existing datasets of images for the DR detection, we found out that the quality of images is too variant. So, we had to perform image enhancement before defining the model's architecture. For this, we referenced to some research papers [1], to enhance image quality in a global manner.
