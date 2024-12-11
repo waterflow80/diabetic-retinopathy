@@ -3,3 +3,5 @@ venv/
 src/drdetector.egg-info/
 /data
 src/drdetector/__pycache__/
+dr-detector*.json
+/models
