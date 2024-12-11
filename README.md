@@ -13,24 +13,20 @@ Diabetic Retinopathy is a complication of diabetes mellitus, in which glucose bl
 
 Diabetic Retinopathy includes four types of lesions:
 #### 1. Microaneurysms (MA):
-![Microaneurysms-in-retinal-image](https://github.com/user-attachments/assets/a5fec93a-105c-4965-aa66-c5c555db1147)
 
 It is an early stage of DR. It is caracterized by small **red round dots** on the retina virtue of vessel wall weakness. The dots have sharp magins (size <= 125μm).
 
 #### 2. Haemorrhages (HM):
-![Fundoscopy-Dot-and-Blot-Haemorrhages](https://github.com/user-attachments/assets/10a900a6-02a1-42ae-a833-7b9d0fe9ca2c)
 
 Caracterized by **large spots** on the retina. It has irregular margin sizes (>= 125μm), and can be split into two categories: 2 categories:
 - **Flame**: superficial spots
 - **Blot**: deep spots
 
 #### 3. Hard exudates:
-![hard-soft-exudates-left](https://github.com/user-attachments/assets/892e4848-0496-4916-8d0e-c3ea9d24a1b7)
 
 It is a consequence of plasma leakage. It can be caracterized by **yellow spots**, and it spans the outer retina layers. It also has **sharp margins**.
 
 #### 4. Soft exudates:
-![hard-soft-exudates-right](https://github.com/user-attachments/assets/f55f282e-43cf-477d-9d12-5f640235fade)
 
 It is a consequence of nerve fibre swelling and visibly seen as **white ovals** on the retina. 
 
