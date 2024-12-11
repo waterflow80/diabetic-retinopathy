@@ -37,7 +37,7 @@ In this project, we are using the [APTOS](https://www.kaggle.com/competitions/ap
 After exploring the existing datasets of images for the DR detection, we found out that the quality of images is too variant. So, we had to perform image enhancement before defining the model's architecture. For this, we referenced to some research papers [1], to enhance image quality in a global manner.
 
 ## Models
-In this project, we are training on CNN, ViT (Vision Transformer), and ResNet to see which model outputs the best results. The choice of the hyper-paramters is very crucial to ensure peformant and efficient models. We should also visualize the training and the test loss together, and maybe use early stoping, to ensure that we don't get overfitting problems.
+In this project, we are training on Resnet18. We can set the `freeze_backbone = True`: Transfer Knowledge, or `freeze_backbone = False`: Fine Tune.
 
 ## Evaluation
 TODO
