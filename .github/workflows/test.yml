@@ -1,0 +1,35 @@
+name : CI workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      # Run CNN Ship Filter Inference
+      - name: Run tests
+        run: |
+          mkdir -p /home/runner/work/diabetic-retinopathy/diabetic-retinopathy/plots
+          drdetector --mode test --data_path ./data/eval/ --model_path ./models/cnn_resnet18_freeze_backbone_False.pth
+          
