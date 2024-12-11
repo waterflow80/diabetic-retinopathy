@@ -1,7 +1,5 @@
 # Diabetic Retinopathy Prediction
-Deep learning solution to predict Diabetic Retinopathy using retinal images.
-
-**Note:** Still in progress, the rest of the code hasn't been pushed yet.
+Deep learning solution, based on CNN: **Resnet18**, to predict Diabetic Retinopathy using retinal images.
 
 
 ## Diabetic Retinopathy Overview
