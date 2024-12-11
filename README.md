@@ -47,6 +47,8 @@ https://www.researchgate.net/publication/340896792_Deep_neural_networks_to_predi
 
 [2]. https://aravinda-gn.medium.com/how-to-split-image-dataset-into-train-validation-and-test-set-5a41c48af332
 
+[3]. https://www.mdpi.com/2076-3417/13/19/10760
+
 # Run Problems
 Useful links:
 - https://github.com/peterjc/backports.lzma?tab=readme-ov-file#usage
