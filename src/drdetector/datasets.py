@@ -1,33 +1,68 @@
-import numpy as np
+import os
 
+import pandas as pd
 
-class DRDataset:
-    # This class is a helper class to access and manipulate the images
-    def __init__(self, img_dir, df, scale=1, img_dim=None, gray=False, transformations=None):
-        # transformations: a map containing the transformation and the corresponding arguments in a tuple: {transform1 : (arg1, arg2, ...)}
-        # Note that the first argument of the transform() function is the image, and it's not passed in the map
-        self.img_dir = img_dir
-        self.df = df
-        self.transformations = transformations
-        self.gray = gray
-        self.scale_rate = scale
-        self.img_dim = img_dim
+from PIL import Image
+from torch.utils.data import Dataset
 
+class Dataset(Dataset):
+    def __init__(self, root_dir, classes_file, transform=None, mode=None):
+        """
+        :param root_dir (String): Root directory path.
+        :param classes_file (String): CSV File containing images' names mapped to their corresponding classes/diagnosis.
+        :param transform (callable, optional): A function/transform to apply to the images
+        :param mode:
+        """
+        self.root_dir = root_dir
+        self.transform = transform
+        #self.classes = ["No DR", "Mild", "Moderate", "Severe", "Proliferative DR"] # Train.csv and test.csv already
+        # contain the encoded classes
+        self.classes_df = pd.read_csv(str(os.path.join(root_dir, classes_file)))
+        #self.class_to_idx = {cls: i for i, cls in enumerate(self.classes)}
+        self.mode = mode
+        self.imgs = self._make_dataset()
+
+    def _get_image_diagnosis(self, img_path):
+        """
+        Return the diagnosis value of the given image
+        :param img:
+        :return:
+        """
+        img_name = img_path.split('/')[-1]
+        id_code = img_name.split('.')[0]  # Remove the image extension (e.g. '.png')
+        diag = self.classes_df[self.classes_df["id_code"] == id_code]["diagnosis"]
+        diag = int(diag.iloc[0])  # Get the int value from the series
+        return diag
+
+    def _make_dataset(self):
+        imgs = []
+
+        valid_extensions = {'.png', '.jpg', '.jpeg'}
+
+        for indx, fname in enumerate(os.listdir(self.root_dir)):
+            if any(fname.lower().endswith(ext) for ext in valid_extensions):
+                path = os.path.join(self.root_dir, fname)
+                class_idx = self._get_image_diagnosis(path)
+                #class_idx = self.class_to_idx[class_name]
+                imgs.append((path, class_idx))
+        return imgs
+
+    def __len__(self):
+        """
+        Return the number of samples in the dataset.
+        """
+        return len(self.imgs)
 
     def __getitem__(self, idx):
-        img_name = self.df.iloc[idx, 0]
-        img_path = os.path.join(self.img_dir, f"{img_name}.png")
-        image = Image.open(img_path)
-        image_dim = (int(image.width * self.scale_rate), int(image.height * self.scale_rate))
-        if self.img_dim:
-            image_dim = self.img_dim
-        image = image.resize(image_dim)
-        if self.gray:
-            # Convert to grayscale
-            image = image.convert("L")
+        """
+        Get the item at index 'idx' from the dataset
+        :param idx (int): The index of the sample to retrieve
+        :return (tuple): A tuple (image, label)
+        """
+        img_path, label = self.imgs[idx]
 
-        if self.transformations:
-            for transform, args in transformations.items():
-                image = transform(image, *args)
+        image = Image.open(img_path).convert('RGB')
+        if self.transform:
+            image = self.transform(image)
 
-        return np.array(image)
+        return image, label
