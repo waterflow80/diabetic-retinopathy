@@ -38,8 +38,21 @@ After exploring the existing datasets of images for the DR detection, we found o
 In this project, we are training on Resnet18. We can set the `freeze_backbone = True`: Transfer Knowledge, or `freeze_backbone = False`: Fine Tune.
 
 ## Evaluation
-TODO
+We're still working on running the model on the full dataset, using `dvc` and connecting to `Google Drive`. The following is the results of the model's performance on **77 train** images and **20 validation** images:
+### Experiment 1:
+#### Parameters:
+|       Name      |   Value  |
+|:---------------:|:--------:|
+| backbone        | resnet18 |
+| epochs          | 2        |
+| freeze_backbone | False    |
+| learning_rate   | 1e-05    |
+#### Metrics
+|       Name      |   Value  |
+|:---------------:|:--------:|
+| train_loss      | 1.399  |
 
+These results are relatively bad and are only for demostration purposes. Running the model on the full dataset and with a bigger number of epochs requires significant amount of resources and processing time.
 ## References
 [1]. https://www.mdpi.com/2076-3417/13/19/10760
 https://www.researchgate.net/publication/359414263_Deep_Learning_Techniques_for_Diabetic_Retinopathy_Classification_A_Survey
