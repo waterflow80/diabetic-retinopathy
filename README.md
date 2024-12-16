@@ -35,7 +35,7 @@ In this project, we are using the [APTOS](https://www.kaggle.com/competitions/ap
 After exploring the existing datasets of images for the DR detection, we found out that the quality of images is too variant. So, we had to perform image enhancement before defining the model's architecture. For this, we referenced to some research papers [1], to enhance image quality in a global manner.
 
 ## Models
-In this project, we are training on Resnet18. We can set the `freeze_backbone = True`: Transfer Knowledge, or `freeze_backbone = False`: Fine Tune.
+In this project, we are training on Resnet18. We can set the `freeze_backbone = True`: Transfer learning, or `freeze_backbone = False`: Fine Tune.
 
 ## Evaluation
 We're still working on running the model on the full dataset, using `dvc` and connecting to `Google Drive`. The following is the results of the model's performance on **77 train** images and **20 validation** images:
