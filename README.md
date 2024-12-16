@@ -32,7 +32,7 @@ It is a consequence of nerve fibre swelling and visibly seen as **white ovals** 
 In this project, we are using the [APTOS](https://www.kaggle.com/competitions/aptos2019-blindness-detection/data) dataset, which contains decent quality retinal images.
 
 ## Image Enhancements
-After exploring the existing datasets of images for the DR detection, we found out that the quality of images is too variant. So, we had to perform image enhancement before defining the model's architecture. For this, we referenced to some research papers [1], to enhance image quality in a global manner.
+After exploring the existing datasets of images for the DR detection, we found out that the quality of images is too variant. So, we had to perform image enhancement before defining the model's architecture. For this, we referenced to some research papers [3], to enhance image quality in a global manner.
 
 ## Models
 In this project, we are training on Resnet18. We can set the `freeze_backbone = True`: Transfer learning, or `freeze_backbone = False`: Fine Tune.
