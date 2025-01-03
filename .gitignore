@@ -1,7 +1,11 @@
 .idea/
 venv/
 src/drdetector.egg-info/
-/data
+/data/train_images
+/data/test_images
+/data/test_images_part
+/data/train_images_part
+/data/test.csv
+/data/train.csv
 src/drdetector/__pycache__/
-dr-detector*.json
 /models
