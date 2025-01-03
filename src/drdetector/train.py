@@ -8,7 +8,7 @@ import torch
 from torch.cuda.amp import GradScaler, autocast
 from torch.optim.lr_scheduler import StepLR
 
-from utils import plot_loss_curves
+from .utils import plot_loss_curves
 
 def train_classifier(model, train_loader, val_loader, criterion, optimizer, num_epochs, model_dir, plot_dir, device,
                      backbone, freeze_backbone):
@@ -84,14 +84,22 @@ def train_classifier(model, train_loader, val_loader, criterion, optimizer, num_
             # Forward pass and compute loss inside autocast
             with autocast():
                 outputs = model(images)
+                #print("Outputs: ", outputs)
+                #print("====> LABELS:", labels)
                 loss = criterion(outputs, labels.long())
+                #print("===>LEAVING WITH LOSS: ", loss)
+                #print("===>LEAVING WITH LOSS.ITEM: ", loss.item())
 
             scaler.scale(loss).backward()
             scaler.step(optimizer)
             scaler.update()
 
             total_train_loss += loss.item()
+            #print("===>HAROUNE: Total Train loss:", total_train_loss)
 
+        #print("\n\n")
+
+       # print("===>HAROUNE: Len train loader:", len(train_loader))
         average_train_loss = total_train_loss / len(train_loader)
 
         # Log the loss to MLFlow

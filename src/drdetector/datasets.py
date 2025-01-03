@@ -6,21 +6,22 @@ from PIL import Image
 from torch.utils.data import Dataset
 
 class Dataset(Dataset):
-    def __init__(self, root_dir, classes_file, transform=None, mode=None):
+    def __init__(self, root_dir, images_dir, classes_file, transform=None, mode=None, limit=5000):
         """
         :param root_dir (String): Root directory path.
         :param classes_file (String): CSV File containing images' names mapped to their corresponding classes/diagnosis.
         :param transform (callable, optional): A function/transform to apply to the images
-        :param mode:
+        :param mode: test or train
+        :param limit (int): Number of images to load
         """
-        self.root_dir = root_dir
+        self.images_dir = os.path.join(root_dir, images_dir)
         self.transform = transform
         #self.classes = ["No DR", "Mild", "Moderate", "Severe", "Proliferative DR"] # Train.csv and test.csv already
         # contain the encoded classes
         self.classes_df = pd.read_csv(str(os.path.join(root_dir, classes_file)))
         #self.class_to_idx = {cls: i for i, cls in enumerate(self.classes)}
         self.mode = mode
-        self.imgs = self._make_dataset()
+        self.imgs = self._make_dataset(limit)
 
     def _get_image_diagnosis(self, img_path):
         """
@@ -34,14 +35,13 @@ class Dataset(Dataset):
         diag = int(diag.iloc[0])  # Get the int value from the series
         return diag
 
-    def _make_dataset(self):
+    def _make_dataset(self, limit):
         imgs = []
-
         valid_extensions = {'.png', '.jpg', '.jpeg'}
 
-        for indx, fname in enumerate(os.listdir(self.root_dir)):
+        for indx, fname in enumerate(os.listdir(self.images_dir)[:limit]):
             if any(fname.lower().endswith(ext) for ext in valid_extensions):
-                path = os.path.join(self.root_dir, fname)
+                path = os.path.join(self.images_dir, fname)
                 class_idx = self._get_image_diagnosis(path)
                 #class_idx = self.class_to_idx[class_name]
                 imgs.append((path, class_idx))
@@ -65,4 +65,5 @@ class Dataset(Dataset):
         if self.transform:
             image = self.transform(image)
 
+        #print("#####==> RETURNING IMAGE:", image,":", label)
         return image, label

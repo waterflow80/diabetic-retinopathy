@@ -25,7 +25,11 @@ def main():
     parser.add_argument("--mode", type=str, choices=["train", "test"], required=True,
                         help="Mode to run: 'train' or 'test'")
     parser.add_argument("--data_path", type=str, required=True,
-                        help="Path to dataset")
+                        help="Path to dataset root directory")
+    parser.add_argument("--images_dir", type=str, default="train_images",
+                        help="Path to images")
+    parser.add_argument("--limit", type=int, default=None,
+                        help="Number of images to process")
     parser.add_argument("--model_path", type=str, default="./models/cnn_resnet18_freeze_backbone_False.pth",
                         help="Directory to save or load the model")
     args = parser.parse_args()
@@ -44,7 +48,7 @@ def main():
 
     if args.mode == "train":
         # Load the entire dataset
-        dataset = Dataset(root_dir=args.data_path, classes_file=TRAIN_CLASSES_FILE, transform=transform, mode=args.mode)
+        dataset = Dataset(root_dir=args.data_path, images_dir=args.images_dir, classes_file=TRAIN_CLASSES_FILE, transform=transform, mode=args.mode, limit=args.limit)
         # create dirs
         if not os.path.exists(MODEL_DIR):
             os.makedirs(MODEL_DIR)
@@ -88,8 +92,6 @@ def main():
             ''')
 
             # Train the model
-            # TODO: Check are we overriding past models no matter what or are we checking if it's better
-            # because we are calling train_classifier for each fold
             train_classifier(model, train_loader, val_loader, criterion, optimizer, MAX_EPOCHS_NUM,
                              MODEL_DIR, PLOTS_DIR, device, BACKBONE, FREEZE_BACKBONE)
 
@@ -100,7 +102,7 @@ def main():
 
     else:
         # Create the test dataset
-        testset = Dataset(root_dir=args.data_path, classes_file=TEST_CLASSES_FILE, transform=transform, mode=args.mode)
+        testset = Dataset(root_dir=args.data_path, images_dir=args.images_dir, classes_file=TEST_CLASSES_FILE, transform=transform, mode=args.mode, limit=args.limit)
         test_loader = DataLoader(testset, batch_size=1, shuffle=False)
         # Load model checkpoint
         model, _, _ = load_checkpoint(model, args.model_path)

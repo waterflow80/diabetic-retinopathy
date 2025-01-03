@@ -75,3 +75,13 @@ https://www.researchgate.net/publication/340896792_Deep_neural_networks_to_predi
 # Run Problems
 Useful links:
 - https://github.com/peterjc/backports.lzma?tab=readme-ov-file#usage
+
+Pytorch / cuda compatibility:
+- https://gist.github.com/Hansimov/c2c82c9512245758398bc8b48c2789c0
+- https://download.pytorch.org/whl/nightly/cu126 (for Cuda 12.6)
+- https://www.reddit.com/r/pytorch/comments/11z9vkf/comment/jm5g09k/?utm_source=share&utm_medium=web2x&context=3 (informative)
+
+To install the correct pytroch version for CUDA 12.6:
+```sh
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu126
+```
