@@ -79,6 +79,7 @@ def train_classifier(model, train_loader, val_loader, criterion, optimizer, num_
         for images, labels in train_loader:
             images, labels = images.to(device), labels.to(device)
 
+            #print(f"===> Images: {images.size()}, labels: {labels}")
             optimizer.zero_grad()
 
             # Forward pass and compute loss inside autocast
@@ -95,7 +96,7 @@ def train_classifier(model, train_loader, val_loader, criterion, optimizer, num_
             scaler.update()
 
             total_train_loss += loss.item()
-            #print("===>HAROUNE: Total Train loss:", total_train_loss)
+            print("===>HAROUNE: Batch Train loss:", total_train_loss)
 
         #print("\n\n")
 
@@ -134,7 +135,7 @@ def train_classifier(model, train_loader, val_loader, criterion, optimizer, num_
             best_val_loss = average_val_loss
             counter = 0
             # Save the best trained model
-            filename = f'cnn_{backbone}_freeze_backbone_{freeze_backbone}'
+            filename = f'cnn_{backbone}_freeze_backbone_{freeze_backbone}_preprocessed'
             torch.save(model.state_dict(), os.path.join(model_dir, f"{filename}.pth"))
             # Log model to MLFlow
             mlflow.pytorch.log_model(model, f"model_epoch_{epoch + 1}")

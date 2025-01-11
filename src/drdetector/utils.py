@@ -33,3 +33,7 @@ def plot_loss_curves(train_losses, val_losses, filename, plot_dir):
     plt.legend()
     plt.tight_layout()
     plt.savefig(os.path.join(plot_dir, f"{filename}.png"))
+
+
+def get_models_list(models_path="/models"):
+    ...

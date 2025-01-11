@@ -1,6 +1,7 @@
 import argparse
 import logging
 import os
+import time
 import warnings
 from os import killpg
 from pickletools import optimize
@@ -16,13 +17,14 @@ from .config import *
 from .train import train_classifier
 from .test import test_classifier
 from .load_chkpts import load_checkpoint
+import drdetector.preprocessing
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def main():
     # Command line arguments
     parser = argparse.ArgumentParser(description="DR Classification")
-    parser.add_argument("--mode", type=str, choices=["train", "test"], required=True,
+    parser.add_argument("--mode", type=str, choices=["train", "test", "preprocess"], required=True,
                         help="Mode to run: 'train' or 'test'")
     parser.add_argument("--data_path", type=str, required=True,
                         help="Path to dataset root directory")
@@ -44,6 +46,7 @@ def main():
     # Initialize the CNN model
     model = Classifier(len(CLASS_NAMES), backbone=BACKBONE, freeze_backbone=FREEZE_BACKBONE)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print(f"CUDA IS AVAILABLE: {torch.cuda.is_available()}")
     model.to(device)
 
     if args.mode == "train":
@@ -58,8 +61,8 @@ def main():
         criterion = torch.nn.CrossEntropyLoss()
 
         # Define k-fold cross-validation with k=5
-        #k_folds = 5
-        k_folds = 2 # Just for testing purposes
+        k_folds = 5
+        #k_folds = 2 # Just for testing purposes
 
         kfold = KFold(n_splits=k_folds, shuffle=True)
 
@@ -100,13 +103,26 @@ def main():
 
         logging.info('Training complete.')
 
-    else:
+    elif args.mode == "test":
         # Create the test dataset
         testset = Dataset(root_dir=args.data_path, images_dir=args.images_dir, classes_file=TEST_CLASSES_FILE, transform=transform, mode=args.mode, limit=args.limit)
         test_loader = DataLoader(testset, batch_size=1, shuffle=False)
         # Load model checkpoint
         model, _, _ = load_checkpoint(model, args.model_path)
         test_classifier(model, test_loader, PLOTS_DIR, BACKBONE, FREEZE_BACKBONE, CLASS_NAMES, device)
+
+
+    else: # args.mode == "preprocess"
+        start_time = time.time()
+        try:
+            images_path = os.path.join(args.data_path, args.images_dir)
+            target_directory = "{}_{}".format(images_path, "preprocessed") # Eg: train_images_preprocessed
+            preprocessing.preprocess(images_path, target_directory)
+        except KeyboardInterrupt:
+            logging.info('Stopping preprocessing. Total Execution Time: %0.2fs', time.time() - start_time)
+
+        logging.info('Total Execution Time: %0.2fs', time.time() - start_time)
+
 
 
 if __name__ == "__main__":

@@ -9,7 +9,8 @@ def load_checkpoint(model, checkpoint_path):
     :param checkpoint_path:
     :return:
     """
-    checkpoint = torch.load(checkpoint_path, map_location=torch.device('cpu'))
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    checkpoint = torch.load(checkpoint_path, map_location=device)
     model.load_state_dict(checkpoint)
     match = re.search(r'_epoch(\d+).pth', checkpoint_path)
     if match:
