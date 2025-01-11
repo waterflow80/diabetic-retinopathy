@@ -48,21 +48,19 @@ $ drdetector --mode test --data_path ./data/test/ --model_path ./models/cnn_resn
 ```
 
 ## Evaluation
-We're still working on running the model on the full dataset, using `dvc` and connecting to `Google Drive`. The following is the results of the model's performance on **77 train** images and **20 validation** images:
-### Experiment 1:
-#### Parameters:
-|       Name      |   Value  |
-|:---------------:|:--------:|
-| backbone        | resnet18 |
-| epochs          | 2        |
-| freeze_backbone | False    |
-| learning_rate   | 1e-05    |
-#### Metrics
-|       Name      |   Value  |
-|:---------------:|:--------:|
-| train_loss      | 1.399  |
+Using **Resnet18**
+### Using original Images:
 
-These results are relatively bad and are only for demostration purposes. Running the model on the full dataset and with a bigger number of epochs requires significant amount of resources and processing time.
+![Screenshot from 2025-01-12 00-35-20](https://github.com/user-attachments/assets/56c337b0-ab76-4f60-af9f-87cade25cb2d)
+
+![cnn_resnet18_freeze_backbone_False_non_preprocessed](https://github.com/user-attachments/assets/dc37ee15-a4ac-423c-94aa-daa053947dd9)
+
+### Using Enhanced Images:
+
+![Screenshot from 2025-01-12 00-35-32](https://github.com/user-attachments/assets/27625fa3-db53-40e2-b8c5-3b4f73b112ab)
+
+![cnn_resnet18_freeze_backbone_False_preprocessed](https://github.com/user-attachments/assets/62951835-c6f2-4a84-93f4-7feb1b1dbd0e)
+
 ## References
 [1]. https://www.mdpi.com/2076-3417/13/19/10760
 https://www.researchgate.net/publication/359414263_Deep_Learning_Techniques_for_Diabetic_Retinopathy_Classification_A_Survey
